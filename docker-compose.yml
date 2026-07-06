@@ -6,7 +6,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: toutiao
-      TZ: Asia/Shanghai
+      MYSQL_PORT: 3306
+      MYSQL_HOST: localhost
+
+      
     command:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
@@ -24,6 +27,10 @@ services:
     image: redis:7-alpine
     container_name: toutiao_redis
     restart: always
+    environment:
+      - REDIS_PORT: 6379
+      - REDIS_HOST: localhost
+
     command: redis-server --appendonly yes
     volumes:
       - redis_data:/data
@@ -42,7 +49,7 @@ services:
     env_file:
       - ./backend/.env
     ports:
-      - "6006:8000"
+      - "8000:8000"
     depends_on:
       mysql:
         condition: service_healthy
@@ -56,7 +63,7 @@ services:
     container_name: toutiao_frontend
     restart: always
     ports:
-      - "6008:80"
+      - "5173:80"
     depends_on:
       - api
 
