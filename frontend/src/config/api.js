@@ -11,11 +11,11 @@ export const apiConfig = {
 
 export const aiChatConfig = {
   // OpenAI API地址
-  apiEndpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+  apiEndpoint: 'https://api.deepseek.com/chat/completions',
   
   // API Key (由开发人员指定)
   apiKey: 'sk-5a654d4e21ad491593ea1db37300a5967494d94751fe81c',
    
   // 使用的模型 
-  model: 'qwen3-max-preview'
+  model: 'deepseek-v4-pro'
 }

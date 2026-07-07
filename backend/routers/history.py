@@ -52,8 +52,7 @@ async def delete_history_api(history_id: int = Path(..., description="历史ID",
 async def clear_favorite_list(user: User = Depends(get_current_user),
                               db: AsyncSession = Depends(get_db)):
         is_delete_all =await delete_all_history(db=db,user=user)
-        if is_delete_all:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="删除失败")
+        
         return success_response(message="清空历史记录成功")
 
 

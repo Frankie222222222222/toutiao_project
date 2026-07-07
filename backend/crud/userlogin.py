@@ -10,10 +10,11 @@ from schemas.user import UserLogin,UpdateUserInfo
 from utils.security import get_hash_password,verify_password
 
 #查询用户
-async  def get_user_info(username: str,db: AsyncSession):
-    result = await db.execute(select(User).where(User.username == username))
-    user_info = result.scalar_one_or_none()
-    return user_info
+async def get_user_by_username(db: AsyncSession, username: str):
+    result = await db.execute(
+        select(User).where(User.username == username)
+    )
+    return result.scalar_one_or_none()
 
 #创建用户
 async def create_user(db: AsyncSession,user_data:UserLogin):
@@ -44,7 +45,7 @@ async def create_token(db: AsyncSession,user_id : int):
 
 
 async def authenticate_user(db: AsyncSession,username: str,password :str):
-    user = await get_user_info(username,db)
+    user = await get_user_by_username(username,db)
     if not user:
         return None
     if not verify_password(password,user.password):
@@ -83,7 +84,7 @@ async def update_user_info(db: AsyncSession,
         raise HTTPException(status_code=404,detail="用户不存在")
 
     #获取更新后的信息
-    updated_user = await  get_user_info(user_name,db)
+    updated_user = await get_user_by_username(user_name,db)
     return updated_user
 
 #修改密码： 验证旧密码->更新新密码

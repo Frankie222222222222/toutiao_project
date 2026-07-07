@@ -4,7 +4,7 @@ from utils.response import success_response
 from utils.auth import get_current_user
 from  fastapi import APIRouter,Depends,Query,HTTPException
 from config.set import get_db,AsyncSession
-from crud.userlogin import get_user_info,create_user,create_token,authenticate_user,update_user_info,update_password
+from crud.userlogin import  get_user_by_username,create_user,create_token,authenticate_user,update_user_info,update_password
 from schemas.user import UserLogin, UpdateUserInfo,UserChangePassword
 from starlette import status
 from schemas.user import UserInfoResponse,UserAuthResponse
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/api/user",tags=["user"])
 @router.post("/register")
 async def register(user_data : UserLogin,db:AsyncSession = Depends(get_db)):
 
-    user = await get_user_info(user_data.username,user_data.password,db)
+    user = await  get_user_by_username(db,user_data.username)
     if user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="用户已存在")
     user = await create_user(db,user_data)
@@ -54,7 +54,7 @@ async def login(user_data : UserLogin,db:AsyncSession = Depends(get_db)):
 
 #查Token->封装crud->功能整合成一个工具函数->路由导入使用
 @router.get("/info")
-async def get_user_info(user:User = Depends(get_current_user)):
+async def get_current_user_info(user:User = Depends(get_current_user)):
     return success_response(message="获取用户信息成功",data=UserInfoResponse.model_validate(user))
 
 #修改用户信息：验证token，更新（用户输入数据put提交），请求体参数，模型类验证

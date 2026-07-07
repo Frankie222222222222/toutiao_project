@@ -78,7 +78,7 @@ const sendMessage = async () => {
   if (!userInput.value.trim() || isLoading.value) return;
   
   // 检查API设置
-  if (!apiKey.value || apiKey.value === 'your-api-key-here') {
+  if (!apiKey.value ||  !apiEndpoint.value) {
     showToast('API Key未配置，请联系管理员');
     return;
   }

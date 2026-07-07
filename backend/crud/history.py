@@ -90,6 +90,6 @@ async def delete_all_history(user: User, db: AsyncSession):
     query = delete(History).where(History.user_id == user.id)
     result = await db.execute(query)
     await db.commit()
-    return result.rowcount > 0
+    return True
 
 
