@@ -13,7 +13,7 @@ dist/
 .env
 .env.*
 !*.env.example
-api.js
+frontend\src\config\api.js
 
 # IDE
 .vscode/
