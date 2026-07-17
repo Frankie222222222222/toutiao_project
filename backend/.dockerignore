@@ -4,6 +4,9 @@ venv/
 .gitignore
 __pycache__/
 *.pyc
+.env.*
+.venv/
+env/
 .idea/
 .DS_Store
 logs/
